@@ -2,17 +2,25 @@
 #include "RenderAPI.h"
 
 #include "DirectX12/DXGI/DXGIFactory.h"
+#include "DirectX12/DXGI/DXGIAdapter.h"
+
+#include "DirectX12/Debug/D12Debug.h"
 
 namespace Engine
 {
 	RenderAPI::~RenderAPI()
 	{
+		if (mDevice.Get())
+		{
+			mDevice.Reset();
+		}
 	}
 
 	void RenderAPI::Initialize(HWND hwnd)
 	{
-		DXGIFactory dxgiFactory;
+		D12Debug::Get().Enable();
 
+		DXGIFactory dxgiFactory;
 		DXGIAdapter adapter = dxgiFactory.GetAdapter();
 
 		DXGI_ADAPTER_DESC desc;
